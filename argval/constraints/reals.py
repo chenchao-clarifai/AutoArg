@@ -1,7 +1,16 @@
-from .base import Constraint
+from .base import IsInstance
 
 
-class IsFloat(Constraint):
-    def assertion(self, x: float):
+class IsFloat(IsInstance):
+    def __init__(self):
+        super().__init__(self, float)
 
-        assert isinstance(x, float)
+
+class IsInteger(IsInstance):
+    def __init__(self):
+        super().__init__(self, int)
+
+
+class IsReal(IsInstance):
+    def __init__(self):
+        super().__init__(self, (int, float))

@@ -10,3 +10,12 @@ class Constraint:
 
     def __repr__(self):
         return self.__class__.__name__
+
+
+class IsInstance(Constraint):
+    def __init__(self, instance_cls: Union[Any, Tuple[Any]]) -> None:
+
+        self.instance_cls = instance_cls
+
+    def assertion(self, x: Any) -> bool:
+        return True if isinstance(x, self.instance_cls) else False
