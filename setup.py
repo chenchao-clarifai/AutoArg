@@ -14,7 +14,7 @@ setup(
     packages=find_packages(exclude=["tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["PyYaml", "pytest"],
+    install_requires=["PyYaml", "pathvalidate", "pytest"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
