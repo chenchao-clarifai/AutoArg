@@ -25,6 +25,17 @@ def test_isinstance():
     assert str(c) == f"IsInstance({(int, float,)})"
 
 
+def test_reals():
+
+    c = ac.IsFloat()
+    assert c(1.0)
+    assert not c(1)
+
+    c = ac.IsInteger()
+    assert c(1)
+    assert not c(1.0)
+
+
 if __name__ == "__main__":
     print(ac.Constraint())
     print(ac.reals.IsFloat())

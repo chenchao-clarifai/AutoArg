@@ -1,6 +1,6 @@
 from typing import *
 
-from .constraints import Constraint
+from .base import Constraint
 
 
 class NOT(Constraint):
