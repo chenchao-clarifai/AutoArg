@@ -122,3 +122,23 @@ class InRange(Constraint):
             return left_rule(x) and right_rule(x)
 
         return rule
+
+
+class Positive(InRange):
+    def __init__(self):
+        super().__init__("( 0 , oo )")
+
+
+class Negative(InRange):
+    def __init__(self):
+        super().__init__("( -oo , 0 )")
+
+
+class NonNegative(InRange):
+    def __init__(self):
+        super().__init__("[ 0 , oo )")
+
+
+class NonPositive(InRange):
+    def __init__(self):
+        super().__init__("( -oo , 0 ]")
