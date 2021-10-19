@@ -35,6 +35,12 @@ def test_reals():
     assert c(1)
     assert not c(1.0)
 
+    c = ac.InRange("[ 0 , 1 ]", "[ 0 , 1 ]")
+    assert c(0.5)
+    assert c(0) and c(1)
+    assert not c(-1)
+    assert not c(1.1)
+
 
 def test_logicals():
 
@@ -52,6 +58,9 @@ def test_logicals():
 
 
 if __name__ == "__main__":
-    print(ac.Constraint())
-    print(ac.reals.IsFloat())
-    ac.reals.IsFloat()(1.0)
+    c = ac.InRange("[ 0 , 1 ]", "[ 0 , 1 ]")
+    print(c(0.5))
+    assert c(0.5)
+    assert c(0) and c(1)
+    assert not c(-1)
+    assert not c(1.1)

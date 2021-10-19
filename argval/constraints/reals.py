@@ -62,6 +62,7 @@ class InRange(Constraint):
     }
 
     def __init__(self, *ranges: str):
+        assert isinstance(ranges, tuple)
         self.ranges = ranges
         self.rules = [self._parse_eq(r) for r in self.ranges]
 
@@ -78,14 +79,24 @@ class InRange(Constraint):
 
         assert isinstance(eq, str)
         eq_ = eq.split(" ")
+
         # [ or ( ... lower_bound ... , ... upper_bound ... ) or ]
         # 0 ........ 1 ............. 2 ... 3 ............. 4
+
+        assert len(eq_) == 5
         assert eq_[0] in ("[", "(")
         assert eq_[4] in ("]", ")")
         assert eq_[2] == ","
 
-        lower_bound = self._map_infs[eq[1]] if eq[1] in self._map_infs else float(eq[1])
-        upper_bound = self._map_infs[eq[3]] if eq[3] in self._map_infs else float(eq[3])
+        if eq[1] in self._map_infs:
+            lower_bound = self._map_infs[eq_[1]]
+        else:
+            lower_bound = float(eq_[1].strip())
+
+        if eq[3] in self._map_infs:
+            upper_bound = self._map_infs[eq_[3]]
+        else:
+            upper_bound = float(eq_[3].strip())
 
         if eq_[0] == "[":
 
