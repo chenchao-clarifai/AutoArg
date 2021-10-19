@@ -36,6 +36,21 @@ def test_reals():
     assert not c(1.0)
 
 
+def test_logicals():
+
+    c = ac.NOT(ac.IsFloat())
+    assert c(1) and c("abc")
+    assert not c(1.0)
+
+    c = ac.ANY(ac.IsFloat(), ac.IsInteger())
+    assert c(1.0) and c(1)
+    assert not c("abc")
+
+    c = ac.ALL(ac.IsFloat(), ac.IsInteger())
+    assert not c(1.0)
+    assert not c(1)
+
+
 if __name__ == "__main__":
     print(ac.Constraint())
     print(ac.reals.IsFloat())

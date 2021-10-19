@@ -9,7 +9,7 @@ class NOT(Constraint):
         self.constraint = constraint
 
     def assertion(self, x: Any) -> bool:
-        return ~self.constraint(x)
+        return not self.constraint(x)
 
 
 class ANY(Constraint):
