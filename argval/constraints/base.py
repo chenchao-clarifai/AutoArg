@@ -1,7 +1,7 @@
 from typing import *
 
 
-class ConstraintBase:
+class Constraint:
     def __call__(self, x: Any):
         self.assertion(x)
 
