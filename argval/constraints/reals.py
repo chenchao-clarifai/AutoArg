@@ -14,3 +14,8 @@ class IsInteger(IsInstance):
 class IsReal(IsInstance):
     def __init__(self):
         super().__init__(self, (int, float))
+
+
+# class InRange(Constraint):
+#
+#     def
