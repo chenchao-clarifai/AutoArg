@@ -3,17 +3,17 @@ from .base import IsInstance
 
 class IsFloat(IsInstance):
     def __init__(self):
-        super().__init__(self, float)
+        super().__init__(float)
 
 
 class IsInteger(IsInstance):
     def __init__(self):
-        super().__init__(self, int)
+        super().__init__(int)
 
 
 class IsReal(IsInstance):
     def __init__(self):
-        super().__init__(self, (int, float))
+        super().__init__((int, float))
 
 
 # class InRange(Constraint):
