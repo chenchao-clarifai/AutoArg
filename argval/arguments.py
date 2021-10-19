@@ -1,6 +1,6 @@
 from typing import *
 
-from .constraint import Constraint
+from .constraints import *
 
 
 class Argument:
@@ -22,3 +22,15 @@ class Argument:
 
     def __repr__(self) -> str:
         return f"Argument(name={self.name}, type={self.type}, constraints={self.constraints}"
+
+
+def get_arguments_from_dict(d: Dict[str, Dict[str, str]]) -> Dict[str, Argument]:
+
+    out = {}
+    for k, v in d.items():
+        v["name"] = k
+        v["type"] = eval(v["type"])
+        v["constraints"] = [eval(c) for c in v["constraints"]]
+        out[k] = Argument(**v)
+
+    return out
