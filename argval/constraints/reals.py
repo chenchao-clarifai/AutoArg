@@ -88,15 +88,15 @@ class InRange(Constraint):
         assert eq_[4] in ("]", ")")
         assert eq_[2] == ","
 
-        if eq[1] in self._map_infs:
+        if eq_[1] in self._map_infs:
             lower_bound = self._map_infs[eq_[1]]
         else:
-            lower_bound = float(eq_[1].strip())
+            lower_bound = float(eq_[1])
 
-        if eq[3] in self._map_infs:
+        if eq_[3] in self._map_infs:
             upper_bound = self._map_infs[eq_[3]]
         else:
-            upper_bound = float(eq_[3].strip())
+            upper_bound = float(eq_[3])
 
         if eq_[0] == "[":
 

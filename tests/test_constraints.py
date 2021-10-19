@@ -35,11 +35,24 @@ def test_reals():
     assert c(1)
     assert not c(1.0)
 
-    c = ac.InRange("[ 0 , 1 ]", "[ 0 , 1 ]")
+    c = ac.InRange("[ 0 , 1 ]")
     assert c(0.5)
     assert c(0) and c(1)
     assert not c(-1)
     assert not c(1.1)
+
+    c = ac.InRange("[ 0 , 1 )")
+    assert c(0.5)
+    assert c(0) and not c(1)
+    assert not c(-1)
+    assert not c(1.1)
+
+    c = ac.InRange("[ 0 , 1 )", "[ 2 , oo ]")
+    assert c(0.5)
+    assert c(0) and not c(1)
+    assert not c(-1)
+    assert not c(1.1)
+    assert c(2) and c(3.5)
 
 
 def test_logicals():
