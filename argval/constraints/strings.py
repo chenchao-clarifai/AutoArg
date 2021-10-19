@@ -14,7 +14,6 @@ class ValidPath(Constraint):
         self.platform = platform
 
     def assertion(self, x: str):
-
         return is_valid_filepath(x, platform=self.platform)
 
     def __repr__(self):
