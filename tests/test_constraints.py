@@ -55,6 +55,18 @@ def test_reals():
     assert c(2) and c(3.5)
 
 
+def test_strings():
+
+    c = ac.IsString()
+    assert c("abc")
+    assert not c(1)
+
+    c = ac.ValidPath("linux")
+    assert c("/usr/share")
+    assert c("file.txt")
+    assert not c("\0_a*b:c<d>e%f/(g)h+i_0.txt")
+
+
 def test_logicals():
 
     c = ac.NOT(ac.IsFloat())
