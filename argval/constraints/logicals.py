@@ -4,7 +4,7 @@ from .base import Constraint
 
 
 class NOT(Constraint):
-    def __init__(self, constraint) -> None:
+    def __init__(self, constraint: Constraint) -> None:
         assert isinstance(constraint, Constraint)
         self.constraint = constraint
 
@@ -13,7 +13,7 @@ class NOT(Constraint):
 
 
 class ANY(Constraint):
-    def __init__(self, *constraints) -> None:
+    def __init__(self, *constraints: Constraint) -> None:
         for c in constraints:
             assert isinstance(c, Constraint)
 
@@ -25,7 +25,7 @@ class ANY(Constraint):
 
 
 class ALL(Constraint):
-    def __init__(self, *constraints) -> None:
+    def __init__(self, *constraints: Constraint) -> None:
         for c in constraints:
             assert isinstance(c, Constraint)
 
