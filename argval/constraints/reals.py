@@ -71,6 +71,9 @@ class InRange(Constraint):
 
         return any(r(x) for r in self.rules)
 
+    def __repr__(self) -> str:
+        return f"{super().__repr__()}({', '.join(self.ranges)})"
+
     def _parse_eq(self, eq: str) -> Callable:
 
         assert isinstance(eq, str)
