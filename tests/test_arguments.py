@@ -25,8 +25,7 @@ def test_load_from_dict():
 
     out1 = aa.get_arguments_from_dict(arg_d)
 
-    assert out0.keys() == out1.keys()
-    assert out0["epoch"] == out1["epoch"]
+    assert out0 == out1
 
 
 if __name__ == "__main__":
