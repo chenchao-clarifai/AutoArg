@@ -82,6 +82,15 @@ def test_logicals():
     assert not c(1)
 
 
+def test_equal():
+
+    assert ac.IsInteger() == ac.IsInteger()
+    assert ac.IsInteger() != ac.IsFloat()
+    assert ac.IsFloat() == ac.IsFloat()
+    assert ac.InRange("[ 0 , 1 ]") == ac.InRange("[ 0 , 1 ]")
+    assert ac.InRange("[ 0 , 1 ]") != ac.InRange("[ 0 , 1 )")
+
+
 if __name__ == "__main__":
     c = ac.InRange("[ 0 , 1 ]", "[ 0 , 1 ]")
     print(c(0.5))

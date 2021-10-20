@@ -11,6 +11,9 @@ class Constraint:
     def __repr__(self) -> str:
         return self.__class__.__name__
 
+    def __eq__(self, other) -> bool:
+        return self.__dict__ == other.__dict__
+
 
 class IsInstance(Constraint):
     def __init__(self, instance_cls: Union[Any, Tuple[Any]]) -> None:
