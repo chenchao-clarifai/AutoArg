@@ -1,5 +1,7 @@
 from typing import *
 
+__all__ = ["Constraint", "IsInstance"]
+
 
 class Constraint:
     def __call__(self, x: Any) -> bool:

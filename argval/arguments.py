@@ -2,6 +2,8 @@ from typing import *
 
 from .constraints import *
 
+__all__ = ["Argument", "get_arguments_from_dict"]
+
 
 class Argument:
     def __init__(self, name: str, constraints: List[Constraint]):
