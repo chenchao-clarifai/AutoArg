@@ -6,6 +6,9 @@ from argval import __version__
 with open("README.md", "r") as f:
     long_description = f.read()
 
+with open("requirements.txt", "r") as f:
+    requirements = f.readlines()
+
 
 setup(
     name="argval",
@@ -14,7 +17,7 @@ setup(
     packages=find_packages(exclude=["tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["PyYaml", "pathvalidate", "pytest"],
+    install_requires=requirements,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
