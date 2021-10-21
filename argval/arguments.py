@@ -6,6 +6,24 @@ __all__ = ["Argument", "get_arguments_from_dict"]
 
 
 class Argument:
+    """
+    Argument Class.
+
+    Parameters
+    ----------
+    name : str
+        Name of the Argument.
+    constraints : List[Constraint]
+        List of `Constraint`.
+
+    Attributes
+    ----------
+    required : bool
+        Whether the argument is required (not `None`)
+    default : Any
+        Default value of the argument
+    """
+
     def __init__(self, name: str, constraints: List[Constraint] = []):
         self.name = name
         self.required = Required() in constraints
