@@ -8,11 +8,12 @@ __all__ = ["Argument", "get_arguments_from_dict"]
 class Argument:
     def __init__(self, name: str, constraints: List[Constraint] = []):
         self.name = name
-        self.required = required
+        self.required = Required() in constraints
+        self.default = None
         for c in constraints:
             assert isinstance(c, Constraint)
-            if not required:
-                assert c(default)
+            if not self.required and isinstance(c, Default):
+                self.default = c.value
 
         self.constraints = constraints
         self.default = default
@@ -23,9 +24,7 @@ class Argument:
 
     def __repr__(self) -> str:
         return f"Argument(name={self.name}, "
-        f"constraints={self.constraints}, "
-        f"required={self.required}, "
-        f"default={self.default})"
+        f"constraints={self.constraints})"
 
     def __eq__(self, other: "Argument"):
         return self.__dict__ == other.__dict__
