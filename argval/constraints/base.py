@@ -11,7 +11,7 @@ class Constraint:
         raise NotImplementedError("Method `assertion` must be implemented.")
 
     def __repr__(self) -> str:
-        return self.__class__.__name__
+        return f"{self.__class__.__name__}()"
 
     def __eq__(self, other) -> bool:
         return self.__dict__ == other.__dict__
