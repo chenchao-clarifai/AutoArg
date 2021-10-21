@@ -1,5 +1,7 @@
 from typing import *
 
+import yaml
+
 from .constraints import *
 
 __all__ = ["Argument", "get_arguments_from_dict"]
@@ -24,7 +26,7 @@ class Argument:
         Default value of the argument
     """
 
-    def __init__(self, name: str, constraints: List[Constraint] = []):
+    def __init__(self, name: str, constraints: List[Constraint] = []) -> None:
         self.name = name
         self.required = Required() in constraints
         self.default = None
@@ -61,3 +63,39 @@ def get_arguments_from_dict(
         out[name] = Argument(name=name, constraints=constraints)
 
     return out
+
+
+class Validator:
+    def __init__(self, dict_of_args: Dict[str, Argument]) -> None:
+        self.args = dict_of_args
+
+    def validate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
+
+        valid_args = {}
+        for name, arg in self.args.items():
+            if name in dict_of_values:
+                assert arg(dict_of_values[name])
+            else:
+                assert (
+                    not arg.required
+                ), f"Argument `{name}` is required but not provided."
+            valid_args[name] = dict_of_values[name]
+
+        return valid_args
+
+    def __call__(self, *args, **kwargs) -> Dict[str, Any]:
+        assert not args, "Only keyword arguments allowed for validation."
+        return self.validate(kwargs)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.args})"
+
+    @classmethod
+    def from_dict(cls, dict_of_constraints: Dict[str, List[Constraint]]) -> "Validator":
+        args = get_arguments_from_dict(dict_of_constraints)
+        return cls(args)
+
+    @classmethod
+    def from_yaml(cls, yaml_string: str) -> "Validator":
+        constraints = yaml.safe_load(yaml_string)
+        return cls.from_dict(constraints)
