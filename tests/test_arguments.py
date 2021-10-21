@@ -35,6 +35,47 @@ def test_load_from_dict():
     assert out0 == out1
 
 
+def test_validator():
+
+    arg_d = {
+        "path": ["IsString()", "ValidPath()", "Required()"],
+        "epoch": ["IsInteger()", "Positive()"],
+    }
+
+    v = aa.Validator.from_dict(arg_d)
+
+    u = aa.Validator.from_yaml(
+        """---
+    path:
+      - IsString()
+      - ValidPath()
+      - Required()
+    epoch:
+      - IsInteger()
+      - Positive()
+    """
+    )
+
+    assert v == u
+
+    out = v(path="abc", epoch=1)
+    assert out["path"] == "abc" and out["epoch"] == 1
+
+    try:
+        _ = v(path="abc", epoch=0)
+        error = False
+    except AssertionError:
+        error = True
+    assert error
+
+    try:
+        _ = v(epoch=10)
+        error = False
+    except AssertionError:
+        error = True
+    assert error
+
+
 if __name__ == "__main__":
     arg_d = {
         "path": ["IsString()", "ValidPath()"],

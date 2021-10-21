@@ -19,4 +19,4 @@ class ValidPath(Constraint):
         return is_valid_filepath(x, platform=self.platform)
 
     def __repr__(self):
-        return f"{super().__repr__()}(platform={self.platform})"
+        return f"{self.__class__.__name__}(platform={self.platform})"

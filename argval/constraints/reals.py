@@ -84,7 +84,7 @@ class InRange(Constraint):
         return any(r(x) for r in self.rules)
 
     def __repr__(self) -> str:
-        return f"{super().__repr__()}({', '.join(self.ranges)})"
+        return f"{self.__class__.__name__}({', '.join(self.ranges)})"
 
     def __eq__(self, other: "InRange") -> bool:
         return (self.__class__ == other.__class__) and (

@@ -4,7 +4,7 @@ import yaml
 
 from .constraints import *
 
-__all__ = ["Argument", "get_arguments_from_dict"]
+__all__ = ["Argument", "get_arguments_from_dict", "Validator"]
 
 
 class Argument:
@@ -42,8 +42,7 @@ class Argument:
         return all(c(x) for c in self.constraints)
 
     def __repr__(self) -> str:
-        return f"Argument(name={self.name}, "
-        f"constraints={self.constraints})"
+        return f"Argument(name={self.name}, constraints={self.constraints})"
 
     def __eq__(self, other: "Argument"):
         return self.__dict__ == other.__dict__
@@ -86,6 +85,10 @@ class Validator:
     def __call__(self, *args, **kwargs) -> Dict[str, Any]:
         assert not args, "Only keyword arguments allowed for validation."
         return self.validate(kwargs)
+
+    def __eq__(self, other: "Validator") -> bool:
+        assert isinstance(other, Validator)
+        return self.args == other.args
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.args})"
