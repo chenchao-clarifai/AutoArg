@@ -123,24 +123,24 @@ class Converter(Operator):
     """Converter converts a dictionary of argument values to another dictionary
     of argument values."""
 
-    def __init__(self, dict_of_templates: Dict[str, string.Template]) -> None:
-        super().__init__(dict_of_templates)
+    def __init__(self, dict_of_template_strings: Dict[str, str]) -> None:
+        super().__init__(dict_of_template_strings)
 
     def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
-
+        dict_of_str = {k: str(v) for k, v in dict_of_values.items()}
         new = {}
-        for name, template in self.args.items():
-            template.substitute(dict_of_values)
+        for name, eqn in self.args.items():
+            template = string.Template(eqn)
+            eqn = template.substitute(dict_of_str)
             try:
-                new[name] = eval(template)
+                new[name] = eval(eqn)
             except NameError:
-                new[name] = template.substitute()  # back to string
+                new[name] = eqn
 
         return new
 
     @classmethod
     def from_dict(
         cls, dict_of_template_strings: Dict[str, List[Constraint]]
-    ) -> "Validator":
-        args = {k: string.Template(v) for k, v in dict_of_template_strings.items()}
-        return cls(args)
+    ) -> "Converter":
+        return cls(dict_of_template_strings)

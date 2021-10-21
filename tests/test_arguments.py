@@ -79,11 +79,9 @@ def test_validator():
 
 def test_converter():
 
-    from string import Template
-
     arg_d = {
-        "path": Template("${a}/${b}"),
-        "epoch": Template("$c + $d"),
+        "path": "${a}/${b}",
+        "epoch": "$c + $d",
     }
 
     v = aa.Converter.from_dict(arg_d)
@@ -95,9 +93,9 @@ def test_converter():
     """
     )
 
-    # assert v == u
+    assert v == u
 
-    for x in [v, u]:
+    for x in [u, v]:
         out = x(a="home", b="src", c=1, d=2)
         assert out["path"] == "home/src" and out["epoch"] == 3
 
