@@ -1,3 +1,4 @@
+import string
 from typing import *
 
 import yaml
@@ -122,5 +123,24 @@ class Converter(Operator):
     """Converter converts a dictionary of argument values to another dictionary
     of argument values."""
 
+    def __init__(self, dict_of_templates: Dict[str, string.Template]) -> None:
+        super().__init__(dict_of_templates)
+
     def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
-        pass
+
+        new = {}
+        for name, template in self.args.items():
+            template.substitute(dict_of_values)
+            try:
+                new[name] = eval(template)
+            except NameError:
+                new[name] = template.substitute()  # back to string
+
+        return new
+
+    @classmethod
+    def from_dict(
+        cls, dict_of_template_strings: Dict[str, List[Constraint]]
+    ) -> "Validator":
+        args = {k: string.Template(v) for k, v in dict_of_template_strings.items()}
+        return cls(args)

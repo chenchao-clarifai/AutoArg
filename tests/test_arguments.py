@@ -77,6 +77,31 @@ def test_validator():
         assert error
 
 
+def test_converter():
+
+    from string import Template
+
+    arg_d = {
+        "path": Template("${a}/${b}"),
+        "epoch": Template("$c + $d"),
+    }
+
+    v = aa.Converter.from_dict(arg_d)
+
+    u = aa.Converter.from_yaml(
+        """---
+    path: ${a}/${b}
+    epoch: $c + $d
+    """
+    )
+
+    # assert v == u
+
+    for x in [v, u]:
+        out = x(a="home", b="src", c=1, d=2)
+        assert out["path"] == "home/src" and out["epoch"] == 3
+
+
 if __name__ == "__main__":
     arg_d = {
         "path": ["IsString()", "ValidPath()"],
