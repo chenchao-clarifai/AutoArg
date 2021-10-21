@@ -16,7 +16,6 @@ class Argument:
                 self.default = c.value
 
         self.constraints = constraints
-        self.default = default
 
     def __call__(self, x: Any) -> bool:
 

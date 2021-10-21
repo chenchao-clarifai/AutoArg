@@ -4,7 +4,7 @@ import argval.constraints as ac
 def test_base_constraint():
 
     c = ac.Constraint()
-    assert str(c) == "Constraint"
+    assert str(c) == "Constraint()"
 
 
 def test_isinstance():
