@@ -58,22 +58,23 @@ def test_validator():
 
     assert v == u
 
-    out = v(path="abc", epoch=1)
-    assert out["path"] == "abc" and out["epoch"] == 1
+    for x in [v, u]:
+        out = x(path="abc", epoch=1)
+        assert out["path"] == "abc" and out["epoch"] == 1
 
-    try:
-        _ = v(path="abc", epoch=0)
-        error = False
-    except AssertionError:
-        error = True
-    assert error
+        try:
+            _ = x(path="abc", epoch=0)
+            error = False
+        except AssertionError:
+            error = True
+        assert error
 
-    try:
-        _ = v(epoch=10)
-        error = False
-    except AssertionError:
-        error = True
-    assert error
+        try:
+            _ = x(epoch=10)
+            error = False
+        except AssertionError:
+            error = True
+        assert error
 
 
 if __name__ == "__main__":
