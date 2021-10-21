@@ -4,7 +4,7 @@ import yaml
 
 from .constraints import *
 
-__all__ = ["Argument", "get_arguments_from_dict", "Validator"]
+__all__ = ["Argument", "Validator"]
 
 
 class Argument:
@@ -64,12 +64,42 @@ def get_arguments_from_dict(
     return out
 
 
-class Validator:
+class Operator:
+    def __init__(self, dict_of_x: Dict[str, Any]) -> None:
+        self.args = dict_of_x
+
+    def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
+        raise NotImplementedError("Method `operate` must be implemented.")
+
+    def __call__(self, *args, **kwargs) -> Dict[str, Any]:
+        assert not args, "Only keyword arguments allowed for validation."
+        return self.operate(kwargs)
+
+    def __eq__(self, other) -> bool:
+        assert isinstance(other, self.__class__)
+        return self.args == other.args
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.args})"
+
+    @classmethod
+    def from_dict(cls, dict_of_x: Dict[str, List[Constraint]]) -> "Operator":
+        raise NotImplementedError("Class Method `from_dict` must be implemented.")
+
+    @classmethod
+    def from_yaml(cls, yaml_string: str) -> "Operator":
+        init = yaml.safe_load(yaml_string)
+        return cls.from_dict(init)
+
+
+class Validator(Operator):
+    """Validator validates a dictionary of values using a dictionary of
+    `Argument`s."""
+
     def __init__(self, dict_of_args: Dict[str, Argument]) -> None:
-        self.args = dict_of_args
+        super().__init__(dict_of_args)
 
-    def validate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
-
+    def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
         valid_args = {}
         for name, arg in self.args.items():
             if name in dict_of_values:
@@ -82,23 +112,15 @@ class Validator:
 
         return valid_args
 
-    def __call__(self, *args, **kwargs) -> Dict[str, Any]:
-        assert not args, "Only keyword arguments allowed for validation."
-        return self.validate(kwargs)
-
-    def __eq__(self, other: "Validator") -> bool:
-        assert isinstance(other, Validator)
-        return self.args == other.args
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.args})"
-
     @classmethod
     def from_dict(cls, dict_of_constraints: Dict[str, List[Constraint]]) -> "Validator":
         args = get_arguments_from_dict(dict_of_constraints)
         return cls(args)
 
-    @classmethod
-    def from_yaml(cls, yaml_string: str) -> "Validator":
-        constraints = yaml.safe_load(yaml_string)
-        return cls.from_dict(constraints)
+
+class Converter(Operator):
+    """Converter converts a dictionary of argument values to another dictionary
+    of argument values."""
+
+    def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
+        pass
