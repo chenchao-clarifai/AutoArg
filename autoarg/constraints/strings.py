@@ -18,15 +18,15 @@ class ValidPath(Constraint):
         assert platform in ("windows", "linux", "macos", "posix", "universal")
         self.platform = platform
 
-    def assertion(self, x: str):
+    def assertion(self, x: str) -> bool:
         return is_valid_filepath(x, platform=self.platform)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}(platform={self.platform})"
 
 
 class ValidJson(Constraint):
-    def assertion(self, x: str):
+    def assertion(self, x: str) -> bool:
         try:
             json.loads(x)
             return True
@@ -35,7 +35,7 @@ class ValidJson(Constraint):
 
 
 class ValidYaml(Constraint):
-    def assertion(self, x: str):
+    def assertion(self, x: str) -> bool:
         try:
             yaml.safe_load(x)
             return True
