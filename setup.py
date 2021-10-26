@@ -1,4 +1,4 @@
-from argval import __version__
+from autoarg import __version__
 from setuptools import find_packages, setup
 
 # load readme
