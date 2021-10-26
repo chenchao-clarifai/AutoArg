@@ -137,7 +137,7 @@ class Converter(Operator):
             eqn = template.substitute(dict_of_str)
             try:
                 new[name] = eval(eqn)
-            except NameError:
+            except Exception:
                 new[name] = eqn
 
         return new
