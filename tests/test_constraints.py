@@ -66,6 +66,22 @@ def test_strings():
     assert c("file.txt")
     assert not c("\0_a*b:c<d>e%f/(g)h+i_0.txt")
 
+    c = ac.ValidJson()
+    assert c('{"a": 1}')
+    assert not c("abc")
+
+    c = ac.ValidYaml()
+    assert c(
+        """---
+    a: 1
+    """
+    )
+    assert not c(
+        """---
+    a: `1
+    """
+    )
+
 
 def test_logicals():
 

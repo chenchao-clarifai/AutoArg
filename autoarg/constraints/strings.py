@@ -5,7 +5,7 @@ from pathvalidate import is_valid_filepath
 
 from .base import Constraint, IsInstance
 
-__all__ = ["IsString", "ValidPath"]
+__all__ = ["IsString", "ValidPath", "ValidJson", "ValidYaml"]
 
 
 class IsString(IsInstance):
