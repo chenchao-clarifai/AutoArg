@@ -104,12 +104,15 @@ class Validator(Operator):
         valid_args = {}
         for name, arg in self.args.items():
             if name in dict_of_values:
-                assert arg(dict_of_values[name])
+                assert arg(
+                    dict_of_values[name]
+                ), f"Value {name} = {dict_of_values[name]} is not compatible with {str(arg)}."
+                valid_args[name] = dict_of_values[name]
             else:
                 assert (
                     not arg.required
                 ), f"Argument `{name}` is required but not provided."
-            valid_args[name] = dict_of_values[name]
+                valid_args[name] = arg.default
 
         return valid_args
 
