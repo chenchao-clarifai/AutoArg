@@ -1,4 +1,4 @@
-import argval.constraints as ac
+import autoarg.constraints as ac
 
 
 def test_base_constraint():

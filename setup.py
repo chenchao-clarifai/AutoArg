@@ -1,6 +1,5 @@
-from setuptools import find_packages, setup
-
 from argval import __version__
+from setuptools import find_packages, setup
 
 # load readme
 with open("README.md", "r") as f:
@@ -11,9 +10,9 @@ with open("requirements.txt", "r") as f:
 
 
 setup(
-    name="argval",
+    name="autoarg",
     version=__version__,
-    description="Argument validation from yaml configs",
+    description="Automated argument validation and conversion.",
     packages=find_packages(exclude=["tests"]),
     long_description=long_description,
     long_description_content_type="text/markdown",

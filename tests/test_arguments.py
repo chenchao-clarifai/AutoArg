@@ -1,5 +1,5 @@
-import argval.arguments as aa
-import argval.constraints as ac
+import autoarg.arguments as aa
+import autoarg.constraints as ac
 
 
 def test_argument():
