@@ -1,3 +1,6 @@
+import json
+
+import yaml
 from pathvalidate import is_valid_filepath
 
 from .base import Constraint, IsInstance
@@ -20,3 +23,21 @@ class ValidPath(Constraint):
 
     def __repr__(self):
         return f"{self.__class__.__name__}(platform={self.platform})"
+
+
+class ValidJson(Constraint):
+    def assertion(self, x: str):
+        try:
+            json.loads(x)
+            return True
+        except json.JSONDecodeError:
+            return False
+
+
+class ValidYaml(Constraint):
+    def assertion(self, x: str):
+        try:
+            yaml.safe_load(x)
+            return True
+        except yaml.scanner.ScannerError:
+            return False
