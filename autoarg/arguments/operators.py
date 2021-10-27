@@ -35,8 +35,7 @@ class Operator:
         return self.operate(kwargs)
 
     def __eq__(self, other) -> bool:
-        assert isinstance(other, self.__class__)
-        return self.args == other.args
+        return isinstance(other, Operator) and self.args == other.args
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.args})"

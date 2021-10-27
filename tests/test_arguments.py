@@ -135,6 +135,17 @@ def test_filters():
     assert "var4" in d and d["var4"] == 4
     assert "var5" in d and d["var5"] == 5
 
+    f1 = aa.Filter.from_yaml(
+        """
+    specs:
+      var1: True
+      var2: True
+    mode: normal_black
+    """
+    )
+
+    assert f1 == aa.WhiteList(["var1", "var2"])
+
 
 if __name__ == "__main__":
     arg_d = {
