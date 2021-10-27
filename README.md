@@ -1,23 +1,4 @@
-# AutoArgs
-
-```shell
-├── README.md
-├── argval
-│   ├── __init__.py
-│   ├── arguments.py
-│   └── constraints
-│       ├── __init__.py
-│       ├── base.py
-│       ├── inputs.py
-│       ├── logicals.py
-│       ├── reals.py
-│       └── strings.py
-├── requirements.txt
-├── setup.py
-└── tests
-    ├── test_arguments.py
-    └── test_constraints.py
-```
+# AutoArg
 
 ## Argument Validation
 
@@ -37,54 +18,87 @@ size:
 ```
 
 ```Python
-import argval
-import argval.constraints as ac
-import argval.arguments as aa
-
-validation_yaml = """---
-    path:
-      - IsString()
-      - ValidPath()
-    epoch:
-      - IsInteger()
-      - Positive()
-      - Default(1)
-    lr:
-      - IsFloat()
-      - InRange('[ 0 , 1 ]')
-      - Default(1e-6)
-    size:
-      - IsInteger()
-      - Positive()
-    """
-ex = yaml.safe_load(validation_yaml)
-args = aa.get_arguments_from_dict(ex)
-
-"""
-=================
-args['epoch'](0)
->> False
-args['epoch'](1.0)
->> False
-args['epoch'](1)
->> True
+validation_manifest = """---
+path:
+  - IsString()
+  - ValidPath()
+config:
+  - IsString()
+  - ValidJson()
+epoch:
+  - Default(1)
+  - IsInteger()
+  - Positive()
+learning_rate:
+  - Default(1e-6)
+  - IsFloat()
+  - InRange('[ 0 , 0.1 ]', '[ 1 , oo )')
+do_train:
+  - IsBool()
+  - Default(True)
 """
 
-validator = aa.Validator.from_yaml(validation_yaml)
-valid_value_dict = validator(path='/root/', size=128)
+v = autoarg.Validator.from_yaml(validation_manifest)
+
+try:
+    d = v(path="/home/clarifai")
+    print(d)
+except Exception as e:
+    print(e)
+
+if v.args['config']('abc'):
+    print("valid json")
+else:
+    print("invalid json")
+
+try:
+    d = v(path="/home/clarifai", config='{"model": "bert-base-cased"}')
+    print(d)
+except Exception as e:
+    print(e)
 ```
 
 ## Argument Conversion
 
 ```python
-conversion_yaml = """---
-		checkpoint_path: ${path}
-		epoch: ${epoch}
-		lr: min(${lr}, 1e-5)
-		size: (${size}, ${size})
-		"""
+conversion_manifest = """---
+path: ${path}
+config: ${config}
+epoch: max(${epoch}, 2)
+lr: max(1e-3, ${learning_rate}) if ${do_train} else 0.0
+lr2: 2.5 * ${learning_rate}
+"""
 
-converter = aa.Converter.from_yaml(conversion_yaml)
-converted_value_dict = converter(valid_value_dict)
+converter = autoarg.Converter.from_yaml(conversion_manifest)
+
+new_values = converter(**d)
 ```
+
+## Argument Filtering
+
+```python
+filtering_manifest = """---
+specs:
+  config: true
+  epoch: true
+  lr2: false
+mode: normal_white
+"""
+
+filtering = autoarg.Filter.from_yaml(filtering_manifest)
+
+filtered_values = filtering(**new_values)
+
+blacklist = autoarg.BlackList('config', 'path')
+
+whitelist = autoarg.WhiteList('config', 'epoch')
+
+opposite_whitelist = ~whitelist
+
+intersection = whitelist & blacklist
+
+union = whitelist | blacklist
+```
+
+
 
