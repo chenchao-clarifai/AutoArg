@@ -98,7 +98,7 @@ class Filter(Operator):
     def from_dict(cls, dict_of_init_kwargs: Dict[str, Any]) -> "Filter":
         return cls(**dict_of_init_kwargs)
 
-    def __eq__(self, other: "Filter"):
+    def __eq__(self, other: "Filter") -> bool:
         _, self_args, other_args = self._binary_op_util(other)
         return (
             isinstance(other, Filter)
@@ -154,7 +154,7 @@ class BlackList(Filter):
     """BlackList Filter removes all variables within the `black_list` and keeps
     all other unspecified variables."""
 
-    def __init__(self, black_list: List[str]):
+    def __init__(self, black_list: List[str]) -> None:
         bools = {name: False for name in black_list}
         mode = NormalMode.WHITE
         super().__init__(bools, mode)
@@ -164,7 +164,7 @@ class WhiteList(Filter):
     """WhiteList Filter keeps all variables within the `white_list` and removes
     all other variables."""
 
-    def __init__(self, white_list: List[str]):
+    def __init__(self, white_list: List[str]) -> None:
         bools = {name: True for name in white_list}
         mode = NormalMode.BLACK
         super().__init__(bools, mode)
