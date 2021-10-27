@@ -145,6 +145,27 @@ def test_filters():
     )
 
     assert f1 == aa.WhiteList(["var1", "var2"])
+    d = f1(var1=1, var2=2, var3=3)
+    assert d["var1"] == 1
+    assert d["var2"] == 2
+    assert "var3" not in d
+
+    f2 = aa.Filter.from_yaml(
+        """
+    specs:
+      var1: False
+      var2: False
+    mode: normal_white
+    """
+    )
+
+    assert f2 == aa.BlackList(["var1", "var2"])
+    d = f2(var1=1, var2=2, var3=3)
+    assert "var1" not in d
+    assert "var2" not in d
+    assert d["var3"] == 3
+
+    assert ~f1 == f2
 
 
 if __name__ == "__main__":

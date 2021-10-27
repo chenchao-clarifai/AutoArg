@@ -141,7 +141,7 @@ class Filter(Operator):
             new_mode = "normal_black"
         return Filter(new_args, new_mode)
 
-    def __not__(self) -> "Filter":
+    def __invert__(self) -> "Filter":
         new_args = {}
         for name, value in self.args.items():
             new_args[name] = not value
