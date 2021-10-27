@@ -5,7 +5,7 @@ import yaml
 
 from .constraints import *
 
-__all__ = ["Argument", "Validator"]
+__all__ = ["Argument", "Validator", "Converter"]
 
 
 class Argument:
