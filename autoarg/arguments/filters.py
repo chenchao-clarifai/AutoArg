@@ -149,7 +149,7 @@ class WhiteList(Filter):
     """WhiteList Filter keeps all variables within the `white_list` and removes
     all other variables."""
 
-    def __init__(self, black_list: List[str]):
-        bools = {name: True for name in black_list}
+    def __init__(self, white_list: List[str]):
+        bools = {name: True for name in white_list}
         mode = NormalMode.BLACK
         super().__init__(bools, mode)
