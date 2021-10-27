@@ -100,6 +100,42 @@ def test_converter():
         assert out["path"] == "home/src" and out["epoch"] == 3
 
 
+def test_filters():
+    f = aa.Filter.from_yaml(
+        """---
+    specs:
+      var1: True
+      var2: True
+      var3: False
+    mode: normal_black
+    """
+    )
+
+    d = f(var1=1, var2=2, var3=3, var4=4, var5=5)
+    assert "var1" in d and d["var1"] == 1
+    assert "var2" in d and d["var2"] == 2
+    assert "var3" not in d
+    assert "var4" not in d
+    assert "var5" not in d
+
+    f = aa.Filter.from_yaml(
+        """---
+    specs:
+      var1: True
+      var2: True
+      var3: False
+    mode: normal_white
+    """
+    )
+
+    d = f(var1=1, var2=2, var3=3, var4=4, var5=5)
+    assert "var1" in d and d["var1"] == 1
+    assert "var2" in d and d["var2"] == 2
+    assert "var3" not in d
+    assert "var4" in d and d["var4"] == 4
+    assert "var5" in d and d["var5"] == 5
+
+
 if __name__ == "__main__":
     arg_d = {
         "path": ["IsString()", "ValidPath()"],

@@ -55,7 +55,7 @@ class Filter(Operator):
 
     Parameters
     ----------
-    dict_of_bool : Dict[str, bool]
+    specs : Dict[str, bool]
         Dictionary of `bool` variables indicating whether the filter keeps
         (`True`) or removes (`False`) the keyword variable.
     mode : Union[str, NormalMode]
@@ -63,16 +63,19 @@ class Filter(Operator):
 
     Attributes
     ----------
+    args : Dict[str, bool]
+        Dictionary of `bool` variables indicating whether the filter keeps
+        (`True`) or removes (`False`) the keyword variable.
     mode : Union[str, NormalMode]
         The mode of filter is the default treatment of unspecified grey variables.
     """
 
     def __init__(
         self,
-        dict_of_bool: Dict[str, bool],
+        specs: Dict[str, bool],
         mode: Union[str, NormalMode] = "normal_white",
     ) -> None:
-        super().__init__(dict_of_bool)
+        super().__init__(specs)
         if isinstance(mode, str):
             mode = NormalMode(mode)
         self.mode = mode
@@ -90,6 +93,17 @@ class Filter(Operator):
                     filtered_values[name] = value
 
         return filtered_values
+
+    @classmethod
+    def from_dict(cls, dict_of_init_kwargs: Dict[str, Any]) -> "Filter":
+        return cls(**dict_of_init_kwargs)
+
+    def __eq__(self, other: "Filter"):
+        return (
+            isinstance(other, Filter)
+            and super().__eq__(other)
+            and self.mode == other.mode
+        )
 
     def _binary_op_util(
         self, other: "Filter"
