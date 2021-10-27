@@ -22,7 +22,7 @@ class NormalMode(Enum):
             return NormalMode.WHITE
 
     def __repr__(self) -> str:
-        return self.name
+        return self.value
 
 
 def _union_of_keys(x: Dict[str, Any], y: Dict[str, Any]) -> Set[str]:
