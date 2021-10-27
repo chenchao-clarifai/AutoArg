@@ -21,6 +21,9 @@ class NormalMode(Enum):
         if mode == NormalMode.BLACK:
             return NormalMode.WHITE
 
+    def __repr__(self) -> str:
+        return self.name
+
 
 def _union_of_keys(x: Dict[str, Any], y: Dict[str, Any]) -> Set[str]:
     x_keys = set(x.keys())
