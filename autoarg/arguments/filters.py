@@ -3,7 +3,7 @@ from typing import *
 
 from .operators import Operator
 
-__all__ = ["Filter", "NormalMode"]
+__all__ = ["Filter", "NormalMode", "BlackList", "WhiteList"]
 
 
 class NormalMode(Enum):
@@ -134,20 +134,22 @@ class Filter(Operator):
         mode = NormalMode.opposite_mode(self.mode)
         return Filter(new_args, mode)
 
-    class BlackList(Filter):
-        """BlackList Filter removes all variables within the `black_list` and
-        keeps all other unspecified variables."""
 
-        def __init__(self, black_list: List[str]):
-            bools = {name: False for name in black_list}
-            mode = NormalMode.WHITE
-            super().__init__(bools, mode)
+class BlackList(Filter):
+    """BlackList Filter removes all variables within the `black_list` and keeps
+    all other unspecified variables."""
 
-    class WhiteList(Filter):
-        """WhiteList Filter keeps all variables within the `white_list` and
-        removes all other variables."""
+    def __init__(self, black_list: List[str]):
+        bools = {name: False for name in black_list}
+        mode = NormalMode.WHITE
+        super().__init__(bools, mode)
 
-        def __init__(self, black_list: List[str]):
-            bools = {name: True for name in black_list}
-            mode = NormalMode.BLACK
-            super().__init__(bools, mode)
+
+class WhiteList(Filter):
+    """WhiteList Filter keeps all variables within the `white_list` and removes
+    all other variables."""
+
+    def __init__(self, black_list: List[str]):
+        bools = {name: True for name in black_list}
+        mode = NormalMode.BLACK
+        super().__init__(bools, mode)
