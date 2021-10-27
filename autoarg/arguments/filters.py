@@ -3,7 +3,7 @@ from typing import *
 
 from .operators import Operator
 
-__all__ = ["Filter"]
+__all__ = ["Filter", "NormalMode"]
 
 
 class NormalMode(Enum):
