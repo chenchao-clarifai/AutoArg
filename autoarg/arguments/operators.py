@@ -4,6 +4,7 @@ from typing import *
 import yaml
 
 from ..constraints import *
+from .argument import Argument
 
 __all__ = ["Validator", "Converter"]
 
