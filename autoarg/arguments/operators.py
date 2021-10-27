@@ -27,6 +27,9 @@ class Operator:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.args})"
 
+    def __len__(self) -> int:
+        return len(self.args)
+
     @classmethod
     def from_dict(cls, dict_of_x: Dict[str, List[Constraint]]) -> "Operator":
         raise NotImplementedError("Class Method `from_dict` must be implemented.")
