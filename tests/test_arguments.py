@@ -166,13 +166,33 @@ def test_filters():
     assert d["var3"] == 3
 
     assert ~f1 == f2
+    assert f1 == ~f2
+
+    all_black = aa.Filter.from_yaml(
+        """---
+    specs:
+      var1: False
+      var2: False
+    mode: normal_black
+    """
+    )
+
+    all_white = aa.Filter.from_yaml(
+        """---
+    specs:
+      var1: true
+      var2: true
+    mode: normal_white
+    """
+    )
+
+    assert f1 & f2 == all_black
+    assert f1 | f2 == all_white
+
+    assert aa.BlackList(["c"]) & aa.WhiteList(["a", "b"]) == aa.WhiteList(["a", "b"])
+    assert aa.BlackList(["c"]) | aa.WhiteList(["a", "b"]) == aa.BlackList(["c"])
 
 
 if __name__ == "__main__":
-    arg_d = {
-        "path": ["IsString()", "ValidPath()"],
-        "epoch": ["IsInteger()", "Positive()", ac.NonNegative()],
-    }
-
-    out = aa.get_arguments_from_dict(arg_d)
-    print(out)
+    print(aa.BlackList(["c"]) & aa.WhiteList(["a", "b"]))
+    print(aa.WhiteList(["a", "b"]))

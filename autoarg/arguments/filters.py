@@ -99,9 +99,10 @@ class Filter(Operator):
         return cls(**dict_of_init_kwargs)
 
     def __eq__(self, other: "Filter"):
+        _, self_args, other_args = self._binary_op_util(other)
         return (
             isinstance(other, Filter)
-            and super().__eq__(other)
+            and self_args == other_args
             and self.mode == other.mode
         )
 
@@ -117,7 +118,7 @@ class Filter(Operator):
 
     def __and__(self, other: "Filter") -> "Filter":
 
-        keys, self_args, other_args = self._binary_op_util(self, other)
+        keys, self_args, other_args = self._binary_op_util(other)
 
         new_args = {}
         for key in keys:
@@ -130,7 +131,7 @@ class Filter(Operator):
         return Filter(new_args, new_mode)
 
     def __or__(self, other: "Filter") -> "Filter":
-        keys, self_args, other_args = self._binary_op_util(self, other)
+        keys, self_args, other_args = self._binary_op_util(other)
         new_args = {}
         for key in keys:
             new_args[key] = self_args[key] or other_args[key]
