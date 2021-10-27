@@ -1,6 +1,6 @@
 from typing import *
 
-from .constraints import *
+from ..constraints import *
 
 __all__ = ["Argument"]
 
