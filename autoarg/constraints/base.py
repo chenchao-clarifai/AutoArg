@@ -22,7 +22,7 @@ class IsInstance(Constraint):
         self.instance_cls = instance_cls
 
     def assertion(self, x: Any) -> bool:
-        return True if isinstance(x, self.instance_cls) else False
+        return isinstance(x, self.instance_cls)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.instance_cls})"

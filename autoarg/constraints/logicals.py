@@ -1,8 +1,13 @@
 from typing import *
 
-from .base import Constraint
+from .base import Constraint, IsInstance
 
-__all__ = ["NOT", "ANY", "ALL"]
+__all__ = ["IsBool", "NOT", "ANY", "ALL"]
+
+
+class IsBool(IsInstance):
+    def __init__(self):
+        super().__init__(bool)
 
 
 class NOT(Constraint):
