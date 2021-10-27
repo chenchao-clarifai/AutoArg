@@ -57,7 +57,7 @@ class Operator:
 
     def to_yaml(self) -> str:
         d = self.to_dict()
-        return yaml.dumps(d)
+        return yaml.dump(d)
 
 
 class Validator(Operator):
