@@ -85,6 +85,11 @@ def test_strings():
 
 def test_logicals():
 
+    c = ac.IsBool()
+    assert c(True) and c(False)
+    assert not c(1.0)
+    assert not c(1)
+
     c = ac.NOT(ac.IsFloat())
     assert c(1) and c("abc")
     assert not c(1.0)
