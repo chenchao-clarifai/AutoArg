@@ -10,8 +10,22 @@ __all__ = ["Validator", "Converter"]
 
 
 class Operator:
-    def __init__(self, dict_of_x: Dict[str, Any]) -> None:
-        self.args = dict_of_x
+    """
+    Operator base class.
+
+    Parameters
+    ----------
+    dict_of_any : Dict[str, Any]
+        Map from string names to objects of Any type.
+
+    Attributes
+    ----------
+    args : Dict[str, Any]
+        Map from string names to objects of Any type.
+    """
+
+    def __init__(self, dict_of_any: Dict[str, Any]) -> None:
+        self.args = dict_of_any
 
     def operate(self, dict_of_values: Dict[str, Any]) -> Dict[str, Any]:
         raise NotImplementedError("Method `operate` must be implemented.")
