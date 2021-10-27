@@ -12,7 +12,22 @@ class NormalMode(Enum):
 
 
 class Filter(Operator):
-    """docstring for  Filter."""
+    """
+    Filter base class.
+
+    Parameters
+    ----------
+    dict_of_bool : Dict[str, bool]
+        Dictionary of `bool` variables indicating whether the filter keeps
+        (`True`) or removes (`False`) the keyword variable.
+    mode : Union[str, NormalMode]
+        The mode of filter is the default treatment of unspecified grey variables.
+
+    Attributes
+    ----------
+    mode : Union[str, NormalMode]
+        The mode of filter is the default treatment of unspecified grey variables.
+    """
 
     def __init__(
         self,
