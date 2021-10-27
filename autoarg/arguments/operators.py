@@ -4,7 +4,7 @@ from typing import *
 import yaml
 
 from ..constraints import *
-from .argument import Argument, get_arguments_from_dict
+from .argument import *
 
 __all__ = ["Validator", "Converter"]
 
