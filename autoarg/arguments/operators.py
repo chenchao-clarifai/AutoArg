@@ -52,6 +52,13 @@ class Operator:
         init = yaml.safe_load(yaml_string)
         return cls.from_dict(init)
 
+    def to_dict(self) -> Dict[str, Any]:
+        return self.__dict__
+
+    def to_yaml(self) -> str:
+        d = self.to_dict()
+        return yaml.dumps(d)
+
 
 class Validator(Operator):
     """Validator validates a dictionary of values using a dictionary of
