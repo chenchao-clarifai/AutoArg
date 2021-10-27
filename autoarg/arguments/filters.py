@@ -157,7 +157,7 @@ class BlackList(Filter):
     """BlackList Filter removes all variables within the `black_list` and keeps
     all other unspecified variables."""
 
-    def __init__(self, black_list: List[str]) -> None:
+    def __init__(self, *black_list: str) -> None:
         bools = {name: False for name in black_list}
         mode = NormalMode.WHITE
         super().__init__(bools, mode)
@@ -167,7 +167,7 @@ class WhiteList(Filter):
     """WhiteList Filter keeps all variables within the `white_list` and removes
     all other variables."""
 
-    def __init__(self, white_list: List[str]) -> None:
+    def __init__(self, *white_list: str) -> None:
         bools = {name: True for name in white_list}
         mode = NormalMode.BLACK
         super().__init__(bools, mode)

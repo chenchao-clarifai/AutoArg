@@ -144,7 +144,7 @@ def test_filters():
     """
     )
 
-    assert f1 == aa.WhiteList(["var1", "var2"])
+    assert f1 == aa.WhiteList("var1", "var2")
     d = f1(var1=1, var2=2, var3=3)
     assert d["var1"] == 1
     assert d["var2"] == 2
@@ -159,7 +159,7 @@ def test_filters():
     """
     )
 
-    assert f2 == aa.BlackList(["var1", "var2"])
+    assert f2 == aa.BlackList("var1", "var2")
     d = f2(var1=1, var2=2, var3=3)
     assert "var1" not in d
     assert "var2" not in d
@@ -189,10 +189,9 @@ def test_filters():
     assert f1 & f2 == all_black
     assert f1 | f2 == all_white
 
-    assert aa.BlackList(["c"]) & aa.WhiteList(["a", "b"]) == aa.WhiteList(["a", "b"])
-    assert aa.BlackList(["c"]) | aa.WhiteList(["a", "b"]) == aa.BlackList(["c"])
+    assert aa.BlackList("c") & aa.WhiteList("a", "b") == aa.WhiteList("a", "b")
+    assert aa.BlackList("c") | aa.WhiteList("a", "b") == aa.BlackList("c")
 
 
 if __name__ == "__main__":
-    print(aa.BlackList(["c"]) & aa.WhiteList(["a", "b"]))
-    print(aa.WhiteList(["a", "b"]))
+    pass
